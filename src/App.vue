@@ -1,30 +1,59 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div>
+    <Fieldset legend="Gerenciamento de Agenda">
+      <Toolbar>
+        <template #start>
+          <Button label="Novo" />
+        </template>
+      </Toolbar>
+      <br />
+      <DataTable :value="list">
+        <Column field="vin" header="Vin"></Column>
+        <Column field="year" header="Year"></Column>
+        <Column field="brand" header="Brand"></Column>
+        <Column field="color" header="Color"></Column>
+      </DataTable>
+    </Fieldset>
+  </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+//Models
+import Agenda from "./models/agenda";
 
-nav {
-  padding: 30px;
+//Services
+import AgendaService from "./service/agenda_service";
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+export default {
+  data() {
+    return {
+      obj: new Agenda(),
+      service: new AgendaService(),
+      list: [
+        { brand: "Volkswagen", year: 2012, color: "Orange", vin: "dsad231ff" },
+        { brand: "Audi", year: 2011, color: "Black", vin: "gwregre345" },
+        { brand: "Renault", year: 2005, color: "Gray", vin: "h354htr" },
+        { brand: "BMW", year: 2003, color: "Blue", vin: "j6w54qgh" },
+        { brand: "Mercedes", year: 1995, color: "Orange", vin: "hrtwy34" },
+        { brand: "Volvo", year: 2005, color: "Black", vin: "jejtyj" },
+        { brand: "Honda", year: 2012, color: "Yellow", vin: "g43gr" },
+        { brand: "Jaguar", year: 2013, color: "Orange", vin: "greg34" },
+        { brand: "Ford", year: 2000, color: "Black", vin: "h54hw5" },
+        { brand: "Fiat", year: 2013, color: "Red", vin: "245t2s" },
+      ],
+    };
+  },
+  created() {
+    // this.findAll();
+  },
+  methods: {
+    findAll() {
+      this.service.findAll().then((data) => {
+        this.list = data;
+      });
+    },
+  },
+};
+</script>
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+<style></style>
