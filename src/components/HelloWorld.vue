@@ -1,60 +1,157 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa" target="_blank" rel="noopener">pwa</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex" target="_blank" rel="noopener">vuex</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+  <Dialog
+    v-model:visible="visibleDialog"
+    :style="{ width: '520px' }"
+    header="Fomulário Agenda"
+    :modal="true"
+    @hide="hideDialog"
+    class="p-fluid"
+  >
+    <div class="fluid">
+      <div class="field">
+        <label for="description">Descrição</label>
+        <InputText
+          id="name"
+          v-model="v$.obj.name.$model"
+          placeholder="Digite seu Nome"
+          maxlength="255"
+          :class="{ 'p-invalid': submitted && v$.obj.name.$invalid }"
+        />
+        <small class="p-error" v-if="submitted && v$.obj.name.$invalid"
+          >Descrição deve ter entre 3 e 50 caracteres.</small
+        >
+      </div>
+      <div class="field">
+        <label for="contact">Contato</label>
+        <InputText
+          id="name"
+          v-model="v$.obj.contact.$model"
+          placeholder="Digite seu Contato"
+          maxlength="255"
+          :class="{ 'p-invalid': submitted && v$.obj.contact.$invalid }"
+        />
+        <small class="p-error" v-if="submitted && v$.obj.contact.$invalid"
+          >Descrição deve ter entre 3 e 50 caracteres.</small
+        >
+      </div>
+      
+    </div>
+
+    <template #footer>
+      <Button
+        label="Salvar"
+        class="p-button"
+        icon="pi pi-check"
+        @click="send(!v$.obj.$invalid)"
+      />
+      <Button
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button p-button-text"
+        @click="hideDialog"
+      />
+    </template>
+  </Dialog>
 </template>
-
 <script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
-</script>
+//Models
+import Agenda from "../models/agenda";
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+//Services
+import AgendaService from "../service/agenda_service";
+
+//VALIDATIONS
+
+export default {
+  props: ["objSelected"],
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  data() {
+    return {
+      obj: new Agenda(),
+      submitted: false,
+      service: new AgendaService(),
+      
+    };
+  },
+  mounted() {
+    this.findAll();
+  },
+  validations() {
+    return {
+      obj: new Lot().validations(),
+    };
+  },
+  computed: {
+    visibleDialog: {
+      get() {
+        let value = this.$store.state.views.agenda.dialogForm;
+        if (value === true) this.getData();
+        return value;
+      },
+      set(value) {
+        this.$store.state.views.agenda.dialogForm = value;
+      },
+    },
+  },
+  methods: {
+    findFabrigators() {
+      this.agendaService.findAll().then((data) => {
+        this.agenda = data;
+      });
+    },
+    send(isFormValid) {
+      this.submitted = true;
+      if (isFormValid) {
+        if (this.obj.id) {
+          this.update();
+        } else {
+          this.create();
+        }
+      } else {
+        return;
+      }
+    },
+    create() {
+      this.submitted = true;
+      this.service
+        .create(this.obj)
+        .then((data) => {
+          if (data.status === 201) {
+            this.$msgSuccess(data);
+            this.$emit("findAll");
+            this.hideDialog();
+          }
+        })
+        .catch((error) => {
+          this.$msgErro(error);
+        });
+    },
+    update() {
+      this.submitted = true;
+      this.service
+        .update(this.obj)
+        .then((data) => {
+          if (data.status === 200) {
+            this.$msgSuccess(data);
+            this.$emit("findAll");
+            this.hideDialog();
+          }
+        })
+        .catch((error) => {
+          this.$msgErro(error);
+        });
+    },
+    hideDialog() {
+      this.obj = new Lot();
+      this.submitted = false;
+      this.visibleDialog = false;
+    },
+    getData() {
+      this.obj = this.objSelected;
+    },
+  },
+};
+</script>
+<style scoped></style>

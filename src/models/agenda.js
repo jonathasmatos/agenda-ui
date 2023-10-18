@@ -4,6 +4,7 @@ export default class Agenda {
         this.id = null;
         this.nome = null;
         this.contato = null;
+        this.status = null;
     }
 
 }
