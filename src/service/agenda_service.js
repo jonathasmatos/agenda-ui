@@ -9,6 +9,9 @@ export default class AgendaService {
   findById(id) {
     return axios.get(`${"http://localhost:8080/agenda"}/${id}`);
   }
+  findByStatus(status) {
+    return this.execute("GET", `/status/${status}`).then((res) => res.data);
+  }
 
   create(obj) {
     return axios.post("http://localhost:8080/agenda", obj);
@@ -16,6 +19,9 @@ export default class AgendaService {
 
   update(obj) {
     return axios.put("http://localhost:8080/agenda", obj);
+  }
+  changeStatus(id) {
+    return axios.put(`${"http://localhost:8080/agenda"}/${id}`);
   }
 
   delete(id) {
