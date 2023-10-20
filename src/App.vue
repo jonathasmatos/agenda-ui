@@ -27,6 +27,11 @@
         <template #empty>
             <div class="p-text-center">Nenhum resultado encontrado...</div>
           </template>
+          <Column header="#" field="id" :sortable="true">
+            <template #body="slotProps">
+              {{ slotProps.data.id }}
+            </template>
+          </Column>
         <Column header="Nome" field="name" :sortable="true">
           <template #body="slotProps">
               {{ slotProps.data.name}}
@@ -58,10 +63,31 @@
               >
             </template>
           </Column>
+          <Column header="Ações">
+            <template #body="slotProps">
+              <Button
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success mr-2"
+                @click="showUpdate(slotProps.data)"
+                v-tooltip.top="'CLIQUE PARA EDITAR'"
+              /> &nbsp;
+              <Button
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-warning"
+                @click="showRemove(slotProps.data)"
+                v-tooltip.top="'CLIQUE PARA EXCLUIR'"
+              />
+            </template>
+          </Column>
       </DataTable>
     </Fieldset>
+    <ConfirmDialog></ConfirmDialog>
   </div>
 </template>
+
+<!--MODAL CADASTRAR-->
+<dialog-form :objSelected="obj" @findAll="findAll" />
+<!--FIM MODAL CADASTRAR-->
 
 <script>
 //Models
@@ -70,7 +96,14 @@ import Agenda from "./models/agenda";
 //Services
 import AgendaService from "./service/agenda_service";
 
+
+//components
+import DialogForm from "./components/dialog-form.vue";
+
 export default {
+    components: {
+      DialogForm,
+    },
   data() {
     return {
       obj: new Agenda(),
@@ -82,12 +115,14 @@ export default {
   },
   mounted() {
     this.findAll();
-    this.changeStatus()
+    //this.changeStatus()
   },
   methods: {
     showCreate() {
       this.obj = new Agenda();
-      this.$store.state.views.agenda.dialogForm = true;
+      //this.$store.state.views.agenda.dialogForm = true;
+      //this.$store.state.views.agenda.dialogForm = false;
+      console.log("cheguei");
     },
     findAll() {
       this.service.findAll().then((data) => {
@@ -104,13 +139,6 @@ export default {
 };
 </script>
 
-<style scoped>
-badge status- {
-    background: #c8e6c9;
-    color: #256029;
-  }
-  badge status- {
-    background: #ffcdd2;
-    color: #c63737;
-  }
+<style lang="scss" scoped>
+@import url("./utilities/App.scss");
 </style>

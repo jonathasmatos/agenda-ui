@@ -7,6 +7,9 @@ export default createStore({
         dialogForm: {
           dialogDetails: false,
         },
+        agenda: {
+          dialogForm: false,
+        },
         getters: {
         },
         mutations: {

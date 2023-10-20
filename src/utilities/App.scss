@@ -1,0 +1,266 @@
+.p-toast.p-toast-top-right {
+  z-index: 1000;
+  top: 7rem;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+.img-thumbnail {
+  border: 1px solid #ddd;
+  /* Gray border */
+  border-radius: 4px;
+  /* Rounded border */
+  padding: 5px;
+  /* Some padding */
+}
+
+.badge {
+  border-radius: 2px;
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+
+  &.status-pending {
+    background: #ffcdd2;
+    color: #c63737;
+  }
+
+  &.status-forwarded {
+    background: #feedaf;
+    color: #8a5340;
+  }
+
+  &.status-analysis {
+    background: #b3e5fc;
+    color: #23547b;
+  }
+
+  &.status-confection {
+    background: #eccfff;
+    color: #694382;
+  }
+
+  &.status-concluded {
+    background: #c8e6c9;
+    color: #256029;
+  }
+
+  &.status-total {
+    background: #0069d9;
+    color: #fff;
+  }
+
+  &.status-true {
+    background: #c8e6c9;
+    color: #256029;
+  }
+
+  &.status-false {
+    background: #ffcdd2;
+    color: #c63737;
+  }
+}
+
+.title-badge {
+  border-radius: 2px;
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.3px;
+  background: #c8e6c9;
+  color: #256029;
+  cursor: pointer;
+}
+
+.title-agendado {
+  border-radius: 2px;
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.3px;
+  background: #30c651;
+  color: #fff;
+}
+
+.title-solicitado {
+  border-radius: 2px;
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.3px;
+  //background: #0274d891;
+  background: #0069d9;
+  color: #fff;
+}
+
+.badge {
+  border-radius: 2px;
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+
+  &.status-requested {
+    background: #feedaf;
+    color: #8a5340;
+  }
+
+  &.status-canceled {
+    background: #ffcdd2;
+    color: #c63737;
+  }
+
+  &.status-schedule {
+    background: #0274d891;
+    color: #022c52;
+    /* 
+     background: #b3e5fc;
+     color: #23547b;
+   */
+  }
+
+  &.status-finished {
+    background: #c8e6c9;
+    color: #256029;
+  }
+
+  &.status-true {
+    background: #c8e6c9;
+    color: #256029;
+  }
+
+  &.status-false {
+    background: #ffcdd2;
+    color: #c63737;
+  }
+
+  &.type-internal {
+    background: #b3e5fc;
+    color: #23547b;
+  }
+
+  &.type-external {
+    background: #dcedc8;
+    color: #33691e;
+  }
+}
+
+.evento-badge {
+  border-radius: 2px;
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+
+  &.status-INTERNO {
+    background: #633bad;
+    color: #fff;
+  }
+
+  &.status-EXTERNO {
+    background: #138496;
+    color: #fff;
+  }
+
+  &.status-FINALIZADO {
+    background: #c8e6c9;
+    color: #256029;
+  }
+
+  &.status-CANCELADO {
+    background: #ffcdd2;
+    color: #c63737;
+  }
+
+  &.status-SOLICITADO {
+    background: #feedaf;
+    color: #8a5340;
+  }
+
+  &.status-AGENDADO {
+    background: #0274d891;
+    color: #022c52;
+  }
+}
+
+.circle-image {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+}
+
+.fix {
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+  text-align: center;
+}
+.grid {
+  padding: 0;
+  margin: 0;
+}
+.layout-footer {
+  background-color: #dddddd;
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  bottom: 0;
+  height: 70px;
+}
+
+.layout-header {
+  background-color: #dddddd;
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  bottom: 0;
+}
+
+.pnl-form {
+  background-color: #ffffff;
+  background-image: radial-gradient(#f8f8f8, #ffffff);
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  border-radius: 5px;
+  animation: go-back 3s;
+}
+
+@media screen and (max-width: 992px) {
+  .logo-menu-right {
+    display: none;
+  }
+  .logo-menu-left {
+    margin-left: 40%;
+  }
+  .footer-text {
+    font-size: 10px;
+    margin-bottom: 5%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+}
+
+@keyframes go-back {
+  from {
+    transform: translateX(500px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
