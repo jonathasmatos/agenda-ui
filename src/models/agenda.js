@@ -1,10 +1,10 @@
 export default class Agenda {
 
-    construct() {
+    constructor() {
         this.id = null;
-        this.nome = null;
-        this.contato = null;
-        this.status = null;
+        this.name = null;
+        this.contact = null;
+        this.status = true;
     }
 
 }

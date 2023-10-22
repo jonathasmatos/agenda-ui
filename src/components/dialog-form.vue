@@ -12,26 +12,29 @@
           <label for="name">Nome</label>
           <InputText
             id="name"
-            v-model="obj.name.$model"
+            type="text"
+            v-model="obj.name"
             placeholder="Digite Seu Nome"
-            maxlength="255"
-name          />
-          <!-- <small class="p-error" v-if="submitted && obj.name.$invalid"
-            >Descrição deve ter entre 3 e 255 caracteres.</small
+            maxlength="150"
+          />
+          <!-- <small class="p-error" v-if="submitted && v$.obj.$invalid"
+            >Validade é obrigatória.</small
           > -->
         </div>
         <div class="field">
           <label for="contact">Contato</label>
           <InputText
             id="contact"
-            v-model="obj.contact.$model"
-            type="date"
-            :class="{ 'p-invalid': submitted && obj.contact.$invalid }"
+            type="txt"
+            v-model="obj.contact"
+            placeholder="Digite Seu Contato"
+            maxlength="15"
           />
-          <!-- <small class="p-error" v-if="submitted && obj.contact.$invalid"
+          <!-- <small class="p-error" v-if="submitted && v$.obj.contact.$invalid"
             >Validade é obrigatória.</small
           > -->
         </div>
+       
       </div>
   
       <template #footer>
@@ -39,7 +42,7 @@ name          />
           label="Salvar"
           class="p-button"
           icon="pi pi-check"
-          @click="send(!v$.obj.$invalid)"
+          @click="send(obj)"
         />
         <Button
           label="Cancelar"
@@ -57,8 +60,8 @@ name          />
   //Services
   import AgendaService from "../service/agenda_service";
 
-//   //VALIDATIONS
-//   import { useVuelidate } from "@vuelidate/core";
+  //VALIDATIONS
+  //import { useVuelidate } from "@vuelidate/core";
   
   export default {
     props: ["objSelected"],
@@ -77,79 +80,74 @@ name          />
     },
     // validations() {
     //   return {
-    //     obj: new Lot().validations(),
+    //     obj: new Agenda(),
     //   };
     // },
     computed: {
-      visibleDialog: {
-        get() {
-          let value = this.$store.state.views.agenda.dialogForm;
-          if (value === true) this.getData();
-          return value;
-        },
-        set(value) {
-          this.$store.state.views.agenda.dialogForm = value;
-        },
+    visibleDialog: {
+      get() {
+        let value = this.$store.state.views.agenda.dialogForm;
+        if (value === true) this.getData();
+        return value;
+      },
+      set(value) {
+        this.$store.state.views.agenda.dialogForm = value;
       },
     },
-    methods: {
-        create() {
-        this.agendaService.findAll().then((data) => {
-          this.agenda = data;
-        });
-      },
-      send(isFormValid) {
-        this.submitted = true;
-        if (isFormValid) {
-          if (this.obj.id) {
-            this.update();
-          } else {
-            this.create();
-          }
+  },
+  methods: {
+    send(isFormValid) {
+      this.submitted = true;
+      if (isFormValid) {
+        if (this.obj.id) {
+          this.update();
         } else {
-          return;
+          this.create();
         }
-      },
-      create() {
-        this.submitted = true;
-        this.service
-          .create(this.obj)
-          .then((data) => {
-            if (data.status === 201) {
-              this.$msgSuccess(data);
-              this.$emit("findAll");
-              this.hideDialog();
-            }
-          })
-          .catch((error) => {
-            this.$msgErro(error);
-          });
-      },
-      update() {
-        this.submitted = true;
-        this.service
-          .update(this.obj)
-          .then((data) => {
-            if (data.status === 200) {
-              this.$msgSuccess(data);
-              this.$emit("findAll");
-              this.hideDialog();
-            }
-          })
-          .catch((error) => {
-            this.$msgErro(error);
-          });
-      },
-      hideDialog() {
-        this.obj = new Agenda();
-        this.submitted = false;
-        this.visibleDialog = false;
-      },
-      getData() {
-        this.obj = this.objSelected;
-      },
+      } else {
+        return;
+      }
     },
-  };
-  </script>
-  <style scoped></style>
+    create() {
+      this.submitted = true;
+      this.service
+        .create(this.obj)
+        .then((data) => {
+          if (data.status === 201) {
+            this.$msgSuccess(data);
+            this.$emit("findAll");
+            this.hideDialog();
+          }
+        })
+        .catch((error) => {
+          this.$msgErro(error);
+        });
+    },
+    update() {
+      this.submitted = true;
+      this.service
+        .update(this.obj)
+        .then((data) => {
+          if (data.status === 200) {
+            this.$msgSuccess(data);
+            this.$emit("findAll");
+            this.hideDialog();
+          }
+        })
+        .catch((error) => {
+          this.$msgErro(error);
+        });
+    },
+    hideDialog() {
+      this.obj = new Agenda();
+      this.submitted = false;
+      this.visibleDialog = false;
+    },
+    getData() {
+      this.obj = this.objSelected;
+    },
+  },
+};
+</script>
+<style scoped></style>
   

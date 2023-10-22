@@ -1,7 +1,7 @@
 <template>
   <div>
     <Fieldset legend="Gerenciamento de Agenda">
-      <Toolbar>
+      <Toolbar class="p-mb-4">
         <template #start>
           <Button
               label="Novo"
@@ -10,6 +10,19 @@
               @click="showCreate()"
             />
         </template>
+        <template #end>
+            <div
+              class="table-header p-d-flex p-flex-column p-flex-md-row p-jc-md-between"
+            >
+              <span class="p-input-icon-left">
+                <i class="pi pi-search" />
+                <InputText
+                  v-model="filters['global'].value"
+                  placeholder="Buscar..."
+                />
+              </span>
+            </div>
+          </template>
       </Toolbar>
       <DataTable 
           ref="dt"
@@ -81,21 +94,20 @@
           </Column>
       </DataTable>
     </Fieldset>
-    <ConfirmDialog></ConfirmDialog>
+    <ConfirmDialog ></ConfirmDialog>
   </div>
-</template>
-
-<!--MODAL CADASTRAR-->
+  <!--MODAL CADASTRAR-->
 <dialog-form :objSelected="obj" @findAll="findAll" />
 <!--FIM MODAL CADASTRAR-->
-
+</template>
 <script>
+
+import { FilterMatchMode } from "primevue/api";
 //Models
 import Agenda from "./models/agenda";
 
 //Services
 import AgendaService from "./service/agenda_service";
-
 
 //components
 import DialogForm from "./components/dialog-form.vue";
@@ -106,12 +118,15 @@ export default {
     },
   data() {
     return {
-      obj: new Agenda(),
-      service: new AgendaService(),
+      loading: false,
       list: [],
+      obj: new Agenda(),
       filters: {},
-      loading: false
+      service: new AgendaService(),
     };
+  },
+  created() {
+    this.initFilters();
   },
   mounted() {
     this.findAll();
@@ -120,15 +135,22 @@ export default {
   methods: {
     showCreate() {
       this.obj = new Agenda();
-      //this.$store.state.views.agenda.dialogForm = true;
+      this.$store.state.views.agenda.dialogForm = true;
       //this.$store.state.views.agenda.dialogForm = false;
       console.log("cheguei");
     },
     findAll() {
+      this.loading = true;
       this.service.findAll().then((data) => {
         this.list = data;
-        console.log(this.list);
+        this.loading = false;
+        console.log(data);
       });
+    },
+    initFilters() {
+      this.filters = {
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      };
     },
     changeStatus(data) {
       this.service.changeStatus(data.id).then(() => {
