@@ -140,6 +140,12 @@ export default {
       this.$store.state.views.agenda.dialogForm = true;
       console.log("cheguei");
     },
+    showUpdate(obj) {
+      this.obj = obj;
+      this.$store.state.views.agenda.dialogForm = true;
+      console.log("Upadte");
+    },
+
     findAll() {
       this.loading = true;
       this.service.findAll().then((data) => {
