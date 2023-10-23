@@ -14,7 +14,7 @@ export default class AgendaService {
   }
 
   create(obj) {
-    return axios.post("http://localhost:8080/agenda", agenda);
+    return axios.post("http://localhost:8080/agenda", obj);
   }
 
   update(obj) {

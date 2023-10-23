@@ -94,6 +94,7 @@
           </Column>
       </DataTable>
     </Fieldset>
+    <Toast />
     <ConfirmDialog ></ConfirmDialog>
   </div>
   <!--MODAL CADASTRAR-->
@@ -125,6 +126,7 @@ export default {
       service: new AgendaService(),
     };
   },
+
   created() {
     this.initFilters();
   },
@@ -136,7 +138,6 @@ export default {
     showCreate() {
       this.obj = new Agenda();
       this.$store.state.views.agenda.dialogForm = true;
-      //this.$store.state.views.agenda.dialogForm = false;
       console.log("cheguei");
     },
     findAll() {
@@ -144,8 +145,28 @@ export default {
       this.service.findAll().then((data) => {
         this.list = data;
         this.loading = false;
-        console.log(data);
       });
+    },
+    showRemove(data) {
+      this.$confirm.require({
+        message: "Deseja Excluir esse registro?",
+        header: "Deseja deletar?",
+        icon: "pi pi-exclamation-triangle",
+        acceptLabel: "Sim",
+        rejectLabel: "Não",
+        accept: () => {
+          this.service
+            .delete(data.id)
+            .then((data) => {
+              this.$msgSuccess(data);
+              this.findAll();
+            })
+            .catch((error) => {
+              this.$msgErro(error);
+            });
+        },
+      });
+      console.log("Remover");
     },
     initFilters() {
       this.filters = {

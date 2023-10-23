@@ -105,7 +105,7 @@
           this.create();
         }
       } else {
-        return;
+        return this.findAll();
       }
     },
     create() {
@@ -114,10 +114,14 @@
         .create(this.obj)
         .then((data) => {
           if (data.status === 201) {
-            this.$msgSuccess(data);
-            this.$emit("findAll");
+            this.$toast.add({
+              severity: "success",
+              summary: "Alerta!",
+              detail: "Registro cadastrado com sucesso.",
+              life: 3000,
+            });
             this.hideDialog();
-          }
+          } 
         })
         .catch((error) => {
           this.$msgErro(error);
