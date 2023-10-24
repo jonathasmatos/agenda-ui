@@ -121,6 +121,7 @@
               life: 3000,
             });
             this.hideDialog();
+            this.$emit("findAll");
           } 
         })
         .catch((error) => {

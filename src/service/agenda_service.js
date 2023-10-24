@@ -21,8 +21,27 @@ export default class AgendaService {
     return axios.put("http://localhost:8080/agenda", obj);
   }
   changeStatus(id) {
-    return axios.put(`${"http://localhost:8080/agenda"}/${id}`);
+
+    return this.execute("PUT", `/status/${id}`);
+
   }
+
+  execute(method, params, data) {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: method,
+        url: "http://localhost:8080/agenda" + params,
+        
+      })
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
+    });
+  }
+
+
+
+
+
 
   delete(id) {
     return axios.delete(`${"http://localhost:8080/agenda"}/${id}`)

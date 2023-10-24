@@ -1,6 +1,9 @@
 <template>
   <div>
     <Fieldset legend="Gerenciamento de Agenda">
+      <div class="card flex justify-center">
+        <Calendar v-model="date" showIcon />
+      </div>
       <Toolbar class="p-mb-4">
         <template #start>
           <Button
@@ -103,6 +106,8 @@
 </template>
 <script>
 
+import { ref } from "vue";
+
 import { FilterMatchMode } from "primevue/api";
 //Models
 import Agenda from "./models/agenda";
@@ -135,10 +140,29 @@ export default {
     //this.changeStatus()
   },
   methods: {
+
+    changeStatus(data) {
+      this.service
+        .changeStatus(data.id)
+        .then((data) => {
+        if (data.status === 200) {
+            this.$msgSuccess(data);
+            this.findAll();
+            this.hideDialog();
+            
+            
+          }
+         })
+         .catch((error) => {
+          this.$msgErro(error);
+        });
+    },
+
     showCreate() {
       this.obj = new Agenda();
       this.$store.state.views.agenda.dialogForm = true;
       console.log("cheguei");
+      this.findAll();
     },
     showUpdate(obj) {
       this.obj = obj;
@@ -179,13 +203,9 @@ export default {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
       };
     },
-    changeStatus(data) {
-      this.service.changeStatus(data.id).then(() => {
-        this.findAll();
-      });
-    },
   },
 };
+const date = ref();
 </script>
 
 <style lang="scss" scoped>

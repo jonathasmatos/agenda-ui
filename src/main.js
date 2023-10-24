@@ -27,6 +27,8 @@ import ToastService from "primevue/toastservice";
 import msgErro from "./utilities/message/Erro";
 import msgSuccess from "./utilities/message/Success";
 import msgInfo from "./utilities/message/Info";
+import Calendar from 'primevue/calendar';
+import Tooltip from "primevue/tooltip";
 
 
 const app = createApp(App);
@@ -35,6 +37,7 @@ app.use(store);
 app.use(router);
 app.use(PrimeVue);
 app.use(ToastService);
+app.directive("tooltip", Tooltip);
 
 
 app.component("Fieldset", Fieldset);
@@ -48,6 +51,7 @@ app.component("Column", Column);
 app.component("ConfirmDialog", ConfirmDialog);
 app.component("ConfirmPopup", ConfirmPopup);
 app.component("Toast", Toast);
+app.component('Calendar', Calendar);
 
 
 app.config.globalProperties.$msgErro = msgErro;
