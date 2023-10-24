@@ -23,11 +23,12 @@
         </div>
         <div class="field">
           <label for="contact">Contato</label>
-          <InputText
+          <InputMask 
             id="contact"
             type="txt"
             v-model="obj.contact"
-            placeholder="Digite Seu Contato"
+            mask="(99) 9999999-99"
+            placeholder="9999999-99"
             maxlength="15"
           />
           <!-- <small class="p-error" v-if="submitted && v$.obj.contact.$invalid"

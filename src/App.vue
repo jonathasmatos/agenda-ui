@@ -7,105 +7,105 @@
       <Toolbar class="p-mb-4">
         <template #start>
           <Button
-              label="Novo"
-              icon="pi pi-plus"
-              class="mr-2"
-              @click="showCreate()"
-            />
+            label="Novo"
+            icon="pi pi-plus"
+            class="mr-2"
+            @click="showCreate()"
+          />
         </template>
         <template #end>
-            <div
-              class="table-header p-d-flex p-flex-column p-flex-md-row p-jc-md-between"
-            >
-              <span class="p-input-icon-left">
-                <i class="pi pi-search" />
-                <InputText
-                  v-model="filters['global'].value"
-                  placeholder="Buscar..."
-                />
-              </span>
-            </div>
-          </template>
+          <div
+            class="table-header p-d-flex p-flex-column p-flex-md-row p-jc-md-between"
+          >
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="filters['global'].value"
+                placeholder="Buscar..."
+              />
+            </span>
+          </div>
+        </template>
       </Toolbar>
-      <DataTable 
-          ref="dt"
-          dataKey="id"
-          class="p-datatable-sm"
-          :value="list"
-          :paginator="true"
-          :rows="10"
-          :rowsPerPageOptions="[10, 20, 50]"
-          :filters="filters"
-          paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-          currentPageReportTemplate="Exibindo de {first} a {last} no total de {totalRecords} registros."
-          :loading="loading"
+      <DataTable
+        ref="dt"
+        dataKey="id"
+        class="p-datatable-sm"
+        :value="list"
+        :paginator="true"
+        :rows="10"
+        :rowsPerPageOptions="[10, 20, 50]"
+        :filters="filters"
+        paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+        currentPageReportTemplate="Exibindo de {first} a {last} no total de {totalRecords} registros."
+        :loading="loading"
       >
         <template #empty>
-            <div class="p-text-center">Nenhum resultado encontrado...</div>
+          <div class="p-text-center">Nenhum resultado encontrado...</div>
+        </template>
+        <Column header="#" field="id" :sortable="true">
+          <template #body="slotProps">
+            {{ slotProps.data.id }}
           </template>
-          <Column header="#" field="id" :sortable="true">
-            <template #body="slotProps">
-              {{ slotProps.data.id }}
-            </template>
-          </Column>
+        </Column>
         <Column header="Nome" field="name" :sortable="true">
           <template #body="slotProps">
-              {{ slotProps.data.name}}
-            </template>
+            {{ slotProps.data.name }}
+          </template>
         </Column>
         <Column header="Contato" field="contact" :sortable="true">
           <template #body="slotProps">
-              {{ slotProps.data.contact}}
-            </template>
+            {{ slotProps.data.contact }}
+          </template>
         </Column>
         <Column field="status" header="Status" ref="status">
-            <template #body="slotProps">
-              <span class="p-column-title">Status:</span>
-              <span
-                v-if="slotProps.data.status === true"
-                :class="'badge status-' + slotProps.data.status"
-                @click="changeStatus(slotProps.data)"
-                v-tooltip.top="'Clique para INATIVAR'"
-                style="cursor: pointer"
-                >Ativo</span
-              >
-              <span
-                v-if="slotProps.data.status === false"
-                :class="'badge status-' + slotProps.data.status"
-                @click="changeStatus(slotProps.data)"
-                v-tooltip.top="'CLIQUE ATIVAR'"
-                style="cursor: pointer"
-                >Inativo</span
-              >
-            </template>
-          </Column>
-          <Column header="Ações">
-            <template #body="slotProps">
-              <Button
-                icon="pi pi-pencil"
-                class="p-button-rounded p-button-success mr-2"
-                @click="showUpdate(slotProps.data)"
-                v-tooltip.top="'CLIQUE PARA EDITAR'"
-              /> &nbsp;
-              <Button
-                icon="pi pi-trash"
-                class="p-button-rounded p-button-warning"
-                @click="showRemove(slotProps.data)"
-                v-tooltip.top="'CLIQUE PARA EXCLUIR'"
-              />
-            </template>
-          </Column>
+          <template #body="slotProps">
+            <span class="p-column-title">Status:</span>
+            <span
+              v-if="slotProps.data.status === true"
+              :class="'badge status-' + slotProps.data.status"
+              @click="changeStatus(slotProps.data)"
+              v-tooltip.top="'Clique para INATIVAR'"
+              style="cursor: pointer"
+              >Ativo</span
+            >
+            <span
+              v-if="slotProps.data.status === false"
+              :class="'badge status-' + slotProps.data.status"
+              @click="changeStatus(slotProps.data)"
+              v-tooltip.top="'CLIQUE ATIVAR'"
+              style="cursor: pointer"
+              >Inativo</span
+            >
+          </template>
+        </Column>
+        <Column header="Ações">
+          <template #body="slotProps">
+            <Button
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-success mr-2"
+              @click="showUpdate(slotProps.data)"
+              v-tooltip.top="'CLIQUE PARA EDITAR'"
+            />
+            &nbsp;
+            <Button
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-warning"
+              @click="showRemove(slotProps.data)"
+              v-tooltip.top="'CLIQUE PARA EXCLUIR'"
+            />
+          </template>
+        </Column>
       </DataTable>
     </Fieldset>
     <Toast />
-    <ConfirmDialog ></ConfirmDialog>
+    <ConfirmDialog></ConfirmDialog>
   </div>
   <!--MODAL CADASTRAR-->
-<dialog-form :objSelected="obj" @findAll="findAll" />
-<!--FIM MODAL CADASTRAR-->
+  <dialog-form :objSelected="obj" @findAll="findAll" />
+  <!--FIM MODAL CADASTRAR-->
 </template>
 <script>
-
 import { ref } from "vue";
 
 import { FilterMatchMode } from "primevue/api";
@@ -119,9 +119,9 @@ import AgendaService from "./service/agenda_service";
 import DialogForm from "./components/dialog-form.vue";
 
 export default {
-    components: {
-      DialogForm,
-    },
+  components: {
+    DialogForm,
+  },
   data() {
     return {
       loading: false,
@@ -137,27 +137,22 @@ export default {
   },
   mounted() {
     this.findAll();
-    //this.changeStatus()
   },
   methods: {
-
     changeStatus(data) {
       this.service
         .changeStatus(data.id)
         .then((data) => {
-        if (data.status === 200) {
+          if (data.status === 200) {
             this.$msgSuccess(data);
             this.findAll();
             this.hideDialog();
-            
-            
           }
-         })
-         .catch((error) => {
+        })
+        .catch((error) => {
           this.$msgErro(error);
         });
     },
-
     showCreate() {
       this.obj = new Agenda();
       this.$store.state.views.agenda.dialogForm = true;
