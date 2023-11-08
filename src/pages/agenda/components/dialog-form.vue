@@ -17,9 +17,9 @@
             placeholder="Digite Seu Nome"
             maxlength="150"
           />
-          <!-- <small class="p-error" v-if="submitted && v$.obj.$invalid"
-            >Validade é obrigatória.</small
-          > -->
+          <small class="p-error" v-if="submitted && v$.obj.name.$invalid"
+            >Nome é obrigatório.</small
+          >
         </div>
         <div class="field">
           <label for="contact">Contato</label>
@@ -31,9 +31,9 @@
             placeholder="9999999-99"
             maxlength="15"
           />
-          <!-- <small class="p-error" v-if="submitted && v$.obj.contact.$invalid"
-            >Validade é obrigatória.</small
-          > -->
+          <small class="p-error" v-if="submitted && v$.obj.contact.$invalid"
+            >Contato é obrigatório.</small
+          >
         </div>
        
       </div>
@@ -62,12 +62,12 @@
   import AgendaService from "../../../service/agenda/agenda_service";
 
   //VALIDATIONS
-  //import { useVuelidate } from "@vuelidate/core";
+  import { useVuelidate } from "@vuelidate/core";
   
   export default {
     props: ["objSelected"],
     setup() {
-      return ;
+      return { v$: useVuelidate() };
     },
     data() {
       return {
@@ -79,11 +79,11 @@
     mounted() {
       
     },
-    // validations() {
-    //   return {
-    //     obj: new Agenda(),
-    //   };
-    // },
+    validations() {
+      return {
+        obj: new Agenda(). validations(),
+      };
+    },
     computed: {
     visibleDialog: {
       get() {
@@ -147,6 +147,7 @@
     hideDialog() {
       this.obj = new Agenda();
       this.submitted = false;
+      this.$emit("findAll");
       this.visibleDialog = false;
     },
     getData() {

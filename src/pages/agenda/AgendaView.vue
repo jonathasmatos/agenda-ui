@@ -146,8 +146,9 @@
             if (data.status === 200) {
               this.$msgSuccess(data);
               this.hideDialog();
+              this.findAll();
             }
-            this.findAll();
+            
           })
           .catch((error) => {
             this.$msgErro(error);
@@ -156,7 +157,6 @@
       showCreate() {
         this.obj = new Agenda();
         this.$store.state.views.agenda.dialogForm = true;
-        console.log("cheguei");
         this.findAll();
       },
       showUpdate(obj) {
@@ -193,6 +193,12 @@
         });
         console.log("Remover");
       },
+      hideDialog() {
+      this.agebda = new Agenda();
+      this.submitted = false;
+      this.$emit("findAll");
+      this.visibleDialog = false;
+    },
       initFilters() {
         this.filters = {
           global: { value: null, matchMode: FilterMatchMode.CONTAINS },

@@ -1,29 +1,29 @@
-// export default function msgErro(response) {
+export default function msgErro(response) {
 
-//   const data = response.response.data[0];
-//   const status = response.response.status;
+  const data = response.response.data[0];
+ const status = response.response.status;
 
-//   if (status === 403) {
-//     this.$toast.add({
-//       severity: "error",
-//       summary: "Alerta de Erro.",
-//       detail: "Permissão negada!",
-//       life: 6000,
-//     });
-//   }
+  if (status === 403) {
+    this.$toast.add({
+      severity: "error",
+      summary: "Alerta de Erro.",
+      detail: "Permissão negada!",
+      life: 6000,
+    });
+  }
 
-//   this.mensagemDesenvolvedor = data.mensagemDesenvolvedor;
-//   this.mensagemUsuario = data.mensagemUsuario;
+  //this.mensagemDesenvolvedor = response.response.data[0].mensagemDesenvolvedor;
+  //this.mensagemUsuario = data.mensagemUsuario;
   
 
-//   if (status >= 400) {
-//     this.$toast.add({
-//       severity: "error",
-//       summary: "Alerta de Erro.",
-//       detail: data.mensagemUsuario,
-//       life: 6000,
-//     });
-//   }
+  if (status >= 400) {
+    this.$toast.add({
+      severity: "error",
+      summary: "Alerta de Erro.",
+    //   detail: data.mensagemUsuario,
+      life: 6000,
+    });
+  }
 
 //   let containing = this.mensagemDesenvolvedor.indexOf("NegocioException");
 //   let foreignKey = this.mensagemDesenvolvedor.indexOf(
@@ -34,7 +34,7 @@
 //       "br.gov.pa.saude.api.exceptionhandler.NegocioException:",
 //       ""
 //     );
-//     //this.mensagemUsuario = negocio
+//     this.mensagemUsuario = negocio
 //     this.$toast.add({
 //       severity: "error",
 //       summary: "Alerta de Erro.",
@@ -59,5 +59,5 @@
 //       detail: message,
 //       life: 6000,
 //     });
-//   }
-// }
+  }
+
