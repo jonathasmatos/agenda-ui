@@ -1,9 +1,6 @@
 <template>
     <div>
       <Fieldset legend="Gerenciamento de Agenda">
-        <div class="card flex justify-center">
-          <Calendar v-model="date" showIcon />
-        </div>
         <Toolbar class="p-mb-4">
           <template #start>
             <Button
@@ -146,9 +143,8 @@
             if (data.status === 200) {
               this.$msgSuccess(data);
               this.hideDialog();
-              this.findAll();
             }
-            
+            this.findAll();
           })
           .catch((error) => {
             this.$msgErro(error);
